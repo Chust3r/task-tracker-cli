@@ -15,7 +15,7 @@
 		"paths": {
 			"~actions/*": ["actions/*"],
 			"~lib/*": ["lib/*"],
-			"~models": ["models/*"]
+			"~types": ["lib/types.ts"]
 		}
 	},
 	"include": ["src/**/*"],
