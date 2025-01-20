@@ -72,9 +72,8 @@ export class JSONDatabase<T extends DBRecord> {
 	}
 
 	private mapDataForDisplay(): (T & { id: number })[] {
-		let index = 1
 		return Array.from(this.data.values()).map((record) => {
-			return { ...record, id: index++ }
+			return record
 		})
 	}
 

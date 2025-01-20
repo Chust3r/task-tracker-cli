@@ -1,8 +1,6 @@
 import { db } from '~lib/db'
 
 export const remove = ({ id }: { id?: number }) => {
-	console.log(id)
-
 	if (!id) {
 		console.log('Error: ID is required.')
 		return
