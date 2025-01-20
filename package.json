@@ -10,11 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@clack/prompts": "^0.9.1",
-    "add": "^2.0.6",
     "minimist": "^1.2.8",
     "nanoid": "^5.0.9",
-    "picocolors": "^1.1.1",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
