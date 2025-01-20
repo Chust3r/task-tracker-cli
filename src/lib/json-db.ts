@@ -73,7 +73,7 @@ export class JSONDatabase<T extends DBRecord> {
 		)
 	}
 
-	insert(newRecord: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): void {
+	insert(newRecord: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): T {
 		const newId = this.idCounter++
 		const createdAt = new Date().toISOString()
 		const updatedAt = createdAt
@@ -89,6 +89,8 @@ export class JSONDatabase<T extends DBRecord> {
 		this.data.set(newUuid, newData)
 
 		this.writeData()
+
+		return newData
 	}
 
 	update(id: number, updatedRecord: Partial<T>): void {
