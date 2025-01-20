@@ -6,5 +6,5 @@ export interface DBRecord {
 
 export interface Task extends DBRecord {
 	description: string;
-	status: "todo" | "in_progress" | "done";
+	status: "todo" | "in-progress" | "done";
 }

@@ -23,7 +23,7 @@ export const list = ({ status }: { status?: string }) => {
 	const tasks = new MatchCase();
 
 	tasks.add("todo", () => printTasks({ status: "todo" }));
-	tasks.add("in_progress", () => printTasks({ status: "in_progress" }));
+	tasks.add("in-progress", () => printTasks({ status: "in-progress" }));
 	tasks.add("done", () => printTasks({ status: "done" }));
 
 	tasks.default(() => {
