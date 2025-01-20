@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 export class JSONDatabase<T extends DBRecord> {
 	private path: string
 	private data: Map<string, T> = new Map()
+	private taskIdMap: Map<number, string> = new Map()
 	private idCounter: number = 1
 
 	constructor(private name: string) {
@@ -19,17 +20,21 @@ export class JSONDatabase<T extends DBRecord> {
 	}
 
 	private createFile(): void {
-		const initialData: Map<string, T> = new Map()
-		writeFileSync(
-			this.path,
-			JSON.stringify(Array.from(initialData.entries()), null, 2),
-			'utf-8'
-		)
+		const initialData: Record<string, T> = {}
+		writeFileSync(this.path, JSON.stringify(initialData, null, 2), 'utf-8')
 	}
 
 	private loadData(): void {
 		const data = this.readData()
-		this.data = new Map(data)
+		this.data = new Map(Object.entries(data))
+
+		this.taskIdMap.clear()
+		for (const [uuid, task] of this.data.entries()) {
+			if (task.id !== undefined) {
+				this.taskIdMap.set(task.id, uuid)
+			}
+		}
+
 		this.idCounter =
 			this.data.size > 0
 				? Math.max(
@@ -38,25 +43,18 @@ export class JSONDatabase<T extends DBRecord> {
 				: 1
 	}
 
-	private readData(): [string, T][] {
+	private readData(): Record<string, T> {
 		const data = readFileSync(this.path, 'utf-8')
-		return JSON.parse(data) as [string, T][]
+		return JSON.parse(data) as Record<string, T>
 	}
 
 	private writeData(): void {
 		const serializedData = JSON.stringify(
-			Array.from(this.data.entries()),
+			Object.fromEntries(this.data.entries()),
 			null,
 			2
 		)
 		writeFileSync(this.path, serializedData, 'utf-8')
-	}
-
-	private mapDataForDisplay(): (T & { id: number })[] {
-		let index = 1
-		return Array.from(this.data.values()).map((record) => {
-			return { ...record, id: index++ }
-		})
 	}
 
 	select(query?: Partial<T>): (T & { id: number })[] {
@@ -73,6 +71,13 @@ export class JSONDatabase<T extends DBRecord> {
 		)
 	}
 
+	private mapDataForDisplay(): (T & { id: number })[] {
+		let index = 1
+		return Array.from(this.data.values()).map((record) => {
+			return { ...record, id: index++ }
+		})
+	}
+
 	insert(newRecord: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): T {
 		const newId = this.idCounter++
 		const createdAt = new Date().toISOString()
@@ -87,41 +92,46 @@ export class JSONDatabase<T extends DBRecord> {
 
 		const newUuid = nanoid()
 		this.data.set(newUuid, newData)
+		this.taskIdMap.set(newId, newUuid)
 
 		this.writeData()
 
 		return newData
 	}
 
-	update(id: number, updatedRecord: Partial<T>): void {
-		const entry = Array.from(this.data.entries()).find(
-			([_, record]) => record.id === id
-		)
+	update(id: number, updatedRecord: Partial<T>): boolean {
+		const uuid = this.taskIdMap.get(id)
 
-		if (entry) {
-			const [uuid, record] = entry
-			const updatedAt = new Date().toISOString()
-			const updatedData = {
-				...record,
-				...updatedRecord,
-				updatedAt,
-			}
-
-			this.data.set(uuid, updatedData)
-			this.writeData()
+		if (!uuid) {
+			return false
 		}
+
+		const record = this.data.get(uuid)!
+		const updatedAt = new Date().toISOString()
+		const updatedData = {
+			...record,
+			...updatedRecord,
+			updatedAt,
+		}
+
+		this.data.set(uuid, updatedData)
+		this.writeData()
+
+		return true
 	}
 
-	delete(id: number): void {
-		const entry = Array.from(this.data.entries()).find(
-			([_, record]) => record.id === id
-		)
+	delete(id: number): boolean {
+		const uuid = this.taskIdMap.get(id)
 
-		if (entry) {
-			const [uuid] = entry
-			this.data.delete(uuid)
-
-			this.writeData()
+		if (!uuid) {
+			return false
 		}
+
+		this.data.delete(uuid)
+		this.taskIdMap.delete(id)
+
+		this.writeData()
+
+		return true
 	}
 }

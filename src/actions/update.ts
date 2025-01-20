@@ -1,6 +1,6 @@
 import { db } from '~lib/db'
 
-export const update = async ({
+export const update = ({
 	id,
 	description,
 }: {
@@ -12,5 +12,10 @@ export const update = async ({
 		return
 	}
 
-	db.update(id, { description })
+	const isUpdated = db.update(id, { description })
+
+	if (!isUpdated) {
+		console.log('Error: Task not found.')
+		return
+	}
 }

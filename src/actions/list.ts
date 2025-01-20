@@ -2,7 +2,7 @@ import type { Task } from '~types'
 import { db } from '~lib/db'
 import { MatchCase } from '~lib/match-case'
 
-const printTasks = (filter?: Partial<Task>) => {
+const printTasks = async (filter?: Partial<Task>) => {
 	const data = db.select(filter)
 
 	if (data.length === 0) {
@@ -14,7 +14,7 @@ const printTasks = (filter?: Partial<Task>) => {
 		console.log(JSON.stringify(task, null, 2))
 	}
 }
-export const list = async ({ status }: { status?: string }) => {
+export const list = ({ status }: { status?: string }) => {
 	if (!status) {
 		printTasks()
 		return
