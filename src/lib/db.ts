@@ -1,4 +1,4 @@
-import { JSONDatabase } from '~lib/json-db'
-import { Task } from '~types'
+import { JSONDatabase } from "~lib/json-db";
+import type { Task } from "~types";
 
-export const db = new JSONDatabase<Task>('tasks')
+export const db = new JSONDatabase<Task>("tasks");

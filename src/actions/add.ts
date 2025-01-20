@@ -1,12 +1,12 @@
-import { db } from '~lib/db'
+import { db } from "~lib/db";
 
 export const add = ({ description }: { description?: string }) => {
 	if (!description) {
-		console.log('Error: Description is required.')
-		return
+		console.log("Error: Description is required.");
+		return;
 	}
 
-	const { id } = db.insert({ description, status: 'todo' })
+	const { id } = db.insert({ description, status: "todo" });
 
-	console.log(`Task added successfully (ID: ${id})`)
-}
+	console.log(`Task added successfully (ID: ${id})`);
+};

@@ -1,22 +1,22 @@
 {
-  "name": "task-tracker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "minimist": "^1.2.8",
-    "nanoid": "^5.0.9",
-    "typescript": "^5.7.3"
-  },
-  "devDependencies": {
-    "@types/minimist": "^1.2.5",
-    "@types/node": "^22.10.7",
-    "ts-node": "^10.9.2"
-  }
+	"name": "task-tracker",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"minimist": "^1.2.8",
+		"nanoid": "^5.0.9",
+		"typescript": "^5.7.3"
+	},
+	"devDependencies": {
+		"@types/minimist": "^1.2.5",
+		"@types/node": "^22.10.7",
+		"ts-node": "^10.9.2"
+	}
 }
