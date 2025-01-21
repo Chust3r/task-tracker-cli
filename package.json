@@ -1,7 +1,7 @@
 {
 	"name": "task-tracker",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A CLI tool for task management built with Node.js and TypeScript, allowing users to add, update, delete, and track tasks with different statuses",
 	"main": "index.js",
 	"scripts": {
 		"test": "vitest"
