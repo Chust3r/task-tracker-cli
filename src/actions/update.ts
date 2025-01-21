@@ -1,4 +1,5 @@
 import { db } from "~lib/db";
+import { createMessage, createTable } from "~lib/show-data";
 
 export const update = ({
 	id,
@@ -8,14 +9,16 @@ export const update = ({
 	description?: string;
 }) => {
 	if (!id || !description) {
-		console.log("Error: ID and description are required.");
+		console.log(createMessage("Error: ID and description are required."));
 		return;
 	}
 
 	const isUpdated = db.update(id, { description });
 
 	if (!isUpdated) {
-		console.log("Error: Task not found.");
+		console.log(createMessage("Error: Task not found."));
 		return;
 	}
+
+	console.log(createTable([...db.select({ id })]));
 };

@@ -1,12 +1,13 @@
 import { db } from "~lib/db";
+import { createMessage, createTable } from "~lib/show-data";
 
 export const add = ({ description }: { description?: string }) => {
 	if (!description) {
-		console.log("Error: Description is required.");
+		console.log(createMessage("Error: Description is required."));
 		return;
 	}
 
-	const { id } = db.insert({ description, status: "todo" });
+	const task = db.insert({ description, status: "todo" });
 
-	console.log(`Task added successfully (ID: ${id})`);
+	console.log(createTable([task]));
 };

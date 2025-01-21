@@ -1,18 +1,17 @@
 import { db } from "~lib/db";
 import { MatchCase } from "~lib/match-case";
+import { createMessage, createTable } from "~lib/show-data";
 import type { Task } from "~types";
 
 const printTasks = async (filter?: Partial<Task>) => {
 	const data = db.select(filter);
 
 	if (data.length === 0) {
-		console.log("No tasks found.");
+		console.log(createMessage("No tasks found"));
 		return;
 	}
 
-	for (const task of data) {
-		console.log(JSON.stringify(task, null, 2));
-	}
+	console.log(createTable(data));
 };
 export const list = ({ status }: { status?: string }) => {
 	if (!status) {
@@ -27,8 +26,10 @@ export const list = ({ status }: { status?: string }) => {
 	tasks.add("done", () => printTasks({ status: "done" }));
 
 	tasks.default(() => {
-		console.warn(
-			`Unknown status: ${status}. Expected: 'todo', 'in_progress', 'done'.`,
+		console.log(
+			createMessage(
+				`Unknown status: ${status}. Expected: 'todo', 'in-progress', 'done'.`,
+			),
 		);
 	});
 
