@@ -1,6 +1,6 @@
 # Task CLI
 
-A simple task tracker built with Node.js and TypeScript, providing a command-line interface to manage tasks. This solution is part of the [task-tracker](https://roadmap.sh/projects/task-tracker) challenge.
+A simple task tracker built with Node.js and TypeScript, providing a command-line interface to manage tasks. This solution is part of the [Roadmap Backend Projects - Task Tracker](https://roadmap.sh/projects/task-tracker) challenge.
 
 ## Features
 
@@ -82,12 +82,4 @@ npx tsx src/index.ts list
 npx tsx src/index.ts list todo
 npx tsx src/index.ts list in-progress
 npx tsx src/index.ts list done
-```
-
-## Development
-
-If you'd like to run the project directly in TypeScript without building the executable, you can use `tsx`:
-
-```bash
-npx tsx src/index.ts
 ```
